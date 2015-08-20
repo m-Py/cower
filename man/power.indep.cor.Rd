@@ -4,7 +4,8 @@
 \alias{power.indep.cor}
 \title{Power analysis for two independent correlations}
 \usage{
-power.indep.cor(r1, r2, n1, n2, sig.level = 0.05, alternative = "two.sided")
+power.indep.cor(r1, r2, n1 = NULL, n2 = NULL, power = NULL,
+  sig.level = 0.05, alternative = "two.sided")
 }
 \arguments{
 \item{r1}{Value of first Pearson correlation coefficient}
