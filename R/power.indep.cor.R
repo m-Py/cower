@@ -84,7 +84,7 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
       ### CASE: determine n, continue looping until good fit for power is found
       currentPower <- pwr
       i  <- i+1
-      if (steps == 10 && currentPower >= power) { # make sure that approximation is rather exact
+      if (steps >= 10 && currentPower >= power) { # make sure that approximation is rather exact
          bestFitFound <- TRUE
          print(paste("n per condition", n1))
          return(pwr)
