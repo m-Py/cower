@@ -26,6 +26,7 @@ power.indep.cor(r1, r2, n1 = NULL, n2 = NULL, power = NULL,
 A \code{list} that contains all passed and computed values.
   \item{r1}{passed correlation coefficient r1}
   \item{r2}{passed correlation coefficient r2}
+  \item{q}{The effect size. Represents the difference between the z-standardized values of r1 and r2}
   \item{n1}{sample size in group 1, either passed ('post hoc'), or computed ('a-priori')}
   \item{n2}{sample size in group 1, either passed ('post hoc'), or computed ('a-priori')}
   \item{power}{Power to detect a significant difference between the two correlation coefficients r1 and r2, either passed ('a-priori') or computed ('post hoc')}
