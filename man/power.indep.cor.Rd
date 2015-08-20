@@ -8,23 +8,32 @@ power.indep.cor(r1, r2, n1 = NULL, n2 = NULL, power = NULL,
   sig.level = 0.05, alternative = "two.sided")
 }
 \arguments{
-\item{r1}{Value of first Pearson correlation coefficient}
+\item{r1}{Value of first Pearson correlation coefficient, must be passed.}
 
-\item{r2}{Value of the other Pearson correlation coefficient}
+\item{r2}{Value of the other Pearson correlation coefficient, must be passed.}
 
-\item{n1}{Sample size of group 1}
+\item{n1}{Sample size of group 1, pass only if the power is to be computed.}
 
-\item{n2}{Sample size of group 2}
+\item{n2}{Sample size of group 2, pass only if the power is to be computed.}
 
-\item{sig.level}{The employed alpha level}
+\item{power}{The desired power, pass only if a desired n is to be computed.}
 
-\item{alternative}{Must be either 'greater', 'less', or 'two.sided'. 'greater' or 'less' will result in one sided tests (to be used if a directional hypothesis exists), two.sided in a two sided test.}
+\item{sig.level}{The employed alpha level, defaults to 0.05.}
+
+\item{alternative}{Must be either 'greater', 'less', or 'two.sided'. 'greater' or 'less' will result in one sided tests (to be used if a directional hypothesis exists). 'greater' means that it is expected that r1 > r2. Default test is two.sided.}
 }
 \value{
-Single value \code{Vector}. The power to detect a difference between the two given correlation coefficients.
+\code{list}. The power to detect a difference between the two given correlation coefficients.
+  \item{r1}{passed correlation coefficient r1}
+  \item{r2}{passed correlation coefficient r2}
+  \item{n1}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
+  \item{n2}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
+  \item{power}{Power to detect difference between the two correlation coefficients, either passed ('a-priori' power analysis) or returned ('post hoc' power analysis)}
+  \item{sig.level}{The significance level that was employed for the power analysis}
+  \item{hypothesis}{Passed argument 'alternative'}
 }
 \description{
-This function determines the power for detecting a significant difference between two independent Pearson correlation coefficients given n for each group. The power is determined for a Fischer z-test. Currently, it does not behave like functions from package `pwr`. It can only be used to determine the power given two r; not n, effect (q) or significance level.
+This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Can be used to determine the power to detect a significant difference between two r for a given N ('post hoc'), or determine N to achieve a desired power ('a-priori').
 }
 \author{
 Martin Papenberg \email{martin.papenberg@hhu.de}

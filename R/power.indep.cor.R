@@ -1,16 +1,24 @@
 
 #' Power analysis for two independent correlations
 #'
-#' This function determines the power for detecting a significant difference between two independent Pearson correlation coefficients given n for each group. The power is determined for a Fischer z-test. Currently, it does not behave like functions from package `pwr`. It can only be used to determine the power given two r; not n, effect (q) or significance level.
+#' This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Can be used to determine the power to detect a significant difference between two r for a given N ('post hoc'), or determine N to achieve a desired power ('a-priori').
 #'
-#' @param r1 Value of first Pearson correlation coefficient
-#' @param r2 Value of the other Pearson correlation coefficient
-#' @param n1 Sample size of group 1
-#' @param n2 Sample size of group 2
-#' @param sig.level The employed alpha level
-#' @param alternative Must be either 'greater', 'less', or 'two.sided'. 'greater' or 'less' will result in one sided tests (to be used if a directional hypothesis exists), two.sided in a two sided test.
+#' @param r1 Value of first Pearson correlation coefficient, must be passed.
+#' @param r2 Value of the other Pearson correlation coefficient, must be passed.
+#' @param n1 Sample size of group 1, pass only if the power is to be computed.
+#' @param n2 Sample size of group 2, pass only if the power is to be computed.
+#' @param power The desired power, pass only if a desired n is to be computed.
+#' @param sig.level The employed alpha level, defaults to 0.05.
+#' @param alternative Must be either 'greater', 'less', or 'two.sided'. 'greater' or 'less' will result in one sided tests (to be used if a directional hypothesis exists). 'greater' means that it is expected that r1 > r2. Default test is two.sided. 
 #'
-#' @return Single value \code{Vector}. The power to detect a difference between the two given correlation coefficients.
+#' @return \code{list}. The power to detect a difference between the two given correlation coefficients.
+#'   \item{r1}{passed correlation coefficient r1}
+#'   \item{r2}{passed correlation coefficient r2}
+#'   \item{n1}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
+#'   \item{n2}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
+#'   \item{power}{Power to detect difference between the two correlation coefficients, either passed ('a-priori' power analysis) or returned ('post hoc' power analysis)}
+#'   \item{sig.level}{The significance level that was employed for the power analysis}
+#'   \item{hypothesis}{Passed argument 'alternative'}
 #'
 #' @references
 #'   Fisher RA. \emph{Statistical Methods for Research Workers}. Edinburgh, Scotland: Oliver and Boyd; 1925. Available: http://psychclassics.yorku.ca.
@@ -80,22 +88,17 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
          }
       }
       if (is.null(power)) { 
-         break # stop if n was given and power is to be determined
+         break # POST HOC ANALYIS STOPS HERE
       } 
       
-      ### CASE: determine n, continue looping until good fit for power is found
+      ### A PRIORI ANALYSIS LOOPS FROM HERE
       currentPower <- pwr
       i  <- i+1
       if (steps >= 10 && currentPower >= power) { # make sure that approximation is rather exact
          bestFitFound <- TRUE
-         rtn[["n1"]] <- n1
-         rtn[["n2"]] <- n2
-         rtn[["power"]] <- pwr
-         rtn[["sig.level"]] <- sig.level
-         rtn[["test"]] <- alternative
-         return(rtn)
+         break
       }
-      if (currentPower < wantedPower) { # increase n
+      if (currentPower < wantedPower) {
          if (status == "decrease") {
             i          <- 0
             startPoint <- n1
@@ -117,6 +120,12 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
       }
    }
    
-   print(c(n1, n2))
-   return(pwr)
+   rtn[["r1"]] <- r1
+   rtn[["r2"]] <- r2
+   rtn[["n1"]] <- n1
+   rtn[["n2"]] <- n2
+   rtn[["power"]] <- pwr
+   rtn[["sig.level"]] <- sig.level
+   rtn[["hypothesis"]] <- alternative
+   return(rtn)
 }
