@@ -1,4 +1,4 @@
-Package: pwrCor
+Package: cower
 Type: Package
 Title: Power Analysis for Correlation Coefficients
 Author: Martin Papenberg <martin.papenberg@hhu.de>
