@@ -1,6 +1,6 @@
 # pwr_cor
 
-Package to conduct power analyses for the comparison of correlation coefficients. Currently, one function is available, which can be used conduct power analyses for detecting the difference between two independent correlation coefficients. Results are tested against <a href ="http://www.gpower.hhu.de/" target="_blank">G-Power 3.1</a>.
+Package to conduct power analyses for the comparison of correlation coefficients. Currently, one function is available, which can be used to conduct power analyses for detecting the differences between two independent Pearson correlation coefficients (as tested via Fisher z-test). Results are tested against <a href ="http://www.gpower.hhu.de/" target="_blank">G-Power 3.1</a>.
 
 Types of power analysis are 
 
