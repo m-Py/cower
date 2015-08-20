@@ -1,31 +1,38 @@
 
 #' Power analysis for two independent correlations
 #'
-#' This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Can be used to determine the power to detect a significant difference between two r for a given N ('post hoc'), or determine N to achieve a desired power ('a-priori').
+#' This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Use (1) to determine power for detecting a significant difference between two r passed N ('post hoc'), or (2) determine required N to achieve a desired power ('a-priori').
 #'
 #' @param r1 Value of first Pearson correlation coefficient, must be passed.
-#' @param r2 Value of the other Pearson correlation coefficient, must be passed.
-#' @param n1 Sample size of group 1, pass only if the power is to be computed.
-#' @param n2 Sample size of group 2, pass only if the power is to be computed.
-#' @param power The desired power, pass only if a desired n is to be computed.
+#' @param r2 Value of second correlation coefficient, must be passed.
+#' @param n1 Sample size of group 1; pass for 'post hoc' analysis.
+#' @param n2 Sample size of group 2; pass for 'post hoc' analysis.
+#' @param power The statistical power; pass for 'a-priori' analysis.
 #' @param sig.level The employed alpha level, defaults to 0.05.
-#' @param alternative Must be either 'greater', 'less', or 'two.sided'. 'greater' or 'less' will result in one sided tests (to be used if a directional hypothesis exists). 'greater' means that it is expected that r1 > r2. Default test is two.sided. 
+#' @param alternative Must be 'greater', 'less', or 'two.sided'. 'greater' (r1 > r2) or 'less' (r1 < r2) will result in one sided tests (to be used if a directional hypothesis exists). Default test is two.sided.
 #'
-#' @return \code{list}. The power to detect a difference between the two given correlation coefficients.
+#' @return A \code{list} that contains all passed and computed values.
 #'   \item{r1}{passed correlation coefficient r1}
 #'   \item{r2}{passed correlation coefficient r2}
-#'   \item{n1}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
-#'   \item{n2}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
-#'   \item{power}{Power to detect difference between the two correlation coefficients, either passed ('a-priori' power analysis) or returned ('post hoc' power analysis)}
+#'   \item{n1}{sample size in group 1, either passed ('post hoc'), or computed ('a-priori')}
+#'   \item{n2}{sample size in group 1, either passed ('post hoc'), or computed ('a-priori')}
+#'   \item{power}{Power to detect a significant difference between the two correlation coefficients r1 and r2, either passed ('a-priori') or computed ('post hoc')}
 #'   \item{sig.level}{The significance level that was employed for the power analysis}
 #'   \item{hypothesis}{Passed argument 'alternative'}
 #'
 #' @references
-#'   Fisher RA. \emph{Statistical Methods for Research Workers}. Edinburgh, Scotland: Oliver and Boyd; 1925. Available: http://psychclassics.yorku.ca.
+#'    Fisher RA. \emph{Statistical Methods for Research Workers}. Edinburgh, Scotland: Oliver and Boyd; 1925. Available: http://psychclassics.yorku.ca.
 #'
-#'   Cohen, J. (1969). \emph{Statistical power analysis for the behavioural sciences}. New York: Academic Press.
+#'    Cohen, J. (1969). \emph{Statistical power analysis for the behavioural sciences}. New York: Academic Press.
 #'
 #' @author Martin Papenberg \email{martin.papenberg@@hhu.de}
+#' 
+#' @examples
+#' 
+#' power.indep.cor(r1 = 0.4, r2 = 0.3, power = 0.8)
+#'
+#' power.indep.cor(r1 = 0.4, r2 = 0.3, n1 = 450, n2 = 450, alternative = "greater")
+#' 
 #' @export
 
 
@@ -41,30 +48,26 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
    if ( is.null(n1) && is.null(n2) && is.null(power) ) {
       stop("Error: either n1 and n2 or power must be given, but none was passed.")
    }
-
-   effSizeQ         <- atanh(r1) - atanh(r2)           # difference of two Fischer-z-transformed r -> effect size q
    
-   # prepare which type of analysis to do: determine power or n?
+   # difference of two Fischer-z-transformed r -> effect size q
+   effSizeQ         <- atanh(r1) - atanh(r2)
+   
+   # prepare which type of analysis to do: a priori or post hoc?
    if (!is.null(power)) {
+      # create some variables that are needed for approximating N in a-priori analysis
+      currentPower     <- 0 # for approximating power   
       wantedPower      <- power
       startPoint <- 3
-      i <- 0 # for approximating power
+      i <- 0 # used to vary n
       # start n = 4 per condition
-      n1 <- startPoint + 2^i
+      n1 <- startPoint + 2^i # approximate the required n in steps that are a power of 2
       n2 <- startPoint + 2^i
       status <- "increase" # start increasing n in power approximation
-      steps  <- 0 # how exact should approximation be
+      steps  <- 0          # keep track about exactness of approximation
    }
-   else { 
-      wantedPower <- Inf # not relevant if power is to be determined
-   }
-   
-   currentPower     <- 0                               # approximate power   
    bestFitFound     <- FALSE
-   rtn              <- list()
-   
-   # loop until power is reached (if n is searched for)
-   while (bestFitFound == FALSE) {
+      
+   while (bestFitFound == FALSE) { # loop until wanted power is achieved (if N is searched for)
       s                <- sqrt( 1/(n1 - 3) + 1/(n2 - 3) ) # see G-Power 3.1 manual
       distributionH1   <- effSizeQ/s                      # mean of the effect size distribution assuming an effect
       
@@ -119,7 +122,8 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
          n2         <- startPoint - 2^i
       }
    }
-   
+   # return all values in one list
+   rtn         <- list()
    rtn[["r1"]] <- r1
    rtn[["r2"]] <- r2
    rtn[["n1"]] <- n1

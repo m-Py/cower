@@ -10,30 +10,35 @@ power.indep.cor(r1, r2, n1 = NULL, n2 = NULL, power = NULL,
 \arguments{
 \item{r1}{Value of first Pearson correlation coefficient, must be passed.}
 
-\item{r2}{Value of the other Pearson correlation coefficient, must be passed.}
+\item{r2}{Value of second correlation coefficient, must be passed.}
 
-\item{n1}{Sample size of group 1, pass only if the power is to be computed.}
+\item{n1}{Sample size of group 1; pass for 'post hoc' analysis.}
 
-\item{n2}{Sample size of group 2, pass only if the power is to be computed.}
+\item{n2}{Sample size of group 2; pass for 'post hoc' analysis.}
 
-\item{power}{The desired power, pass only if a desired n is to be computed.}
+\item{power}{The statistical power; pass for 'a-priori' analysis.}
 
 \item{sig.level}{The employed alpha level, defaults to 0.05.}
 
-\item{alternative}{Must be either 'greater', 'less', or 'two.sided'. 'greater' or 'less' will result in one sided tests (to be used if a directional hypothesis exists). 'greater' means that it is expected that r1 > r2. Default test is two.sided.}
+\item{alternative}{Must be 'greater', 'less', or 'two.sided'. 'greater' (r1 > r2) or 'less' (r1 < r2) will result in one sided tests (to be used if a directional hypothesis exists). Default test is two.sided.}
 }
 \value{
-\code{list}. The power to detect a difference between the two given correlation coefficients.
+A \code{list} that contains all passed and computed values.
   \item{r1}{passed correlation coefficient r1}
   \item{r2}{passed correlation coefficient r2}
-  \item{n1}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
-  \item{n2}{sample size in group 1, either passed ('post hoc' power analysis), or returned ('a-priori' power analysis)}
-  \item{power}{Power to detect difference between the two correlation coefficients, either passed ('a-priori' power analysis) or returned ('post hoc' power analysis)}
+  \item{n1}{sample size in group 1, either passed ('post hoc'), or computed ('a-priori')}
+  \item{n2}{sample size in group 1, either passed ('post hoc'), or computed ('a-priori')}
+  \item{power}{Power to detect a significant difference between the two correlation coefficients r1 and r2, either passed ('a-priori') or computed ('post hoc')}
   \item{sig.level}{The significance level that was employed for the power analysis}
   \item{hypothesis}{Passed argument 'alternative'}
 }
 \description{
-This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Can be used to determine the power to detect a significant difference between two r for a given N ('post hoc'), or determine N to achieve a desired power ('a-priori').
+This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Use (1) to determine power for detecting a significant difference between two r passed N ('post hoc'), or (2) determine required N to achieve a desired power ('a-priori').
+}
+\examples{
+power.indep.cor(r1 = 0.4, r2 = 0.3, power = 0.8)
+
+power.indep.cor(r1 = 0.4, r2 = 0.3, n1 = 450, n2 = 450, alternative = "greater")
 }
 \author{
 Martin Papenberg \email{martin.papenberg@hhu.de}
@@ -41,6 +46,6 @@ Martin Papenberg \email{martin.papenberg@hhu.de}
 \references{
 Fisher RA. \emph{Statistical Methods for Research Workers}. Edinburgh, Scotland: Oliver and Boyd; 1925. Available: http://psychclassics.yorku.ca.
 
-  Cohen, J. (1969). \emph{Statistical power analysis for the behavioural sciences}. New York: Academic Press.
+   Cohen, J. (1969). \emph{Statistical power analysis for the behavioural sciences}. New York: Academic Press.
 }
 
