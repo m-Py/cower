@@ -1,13 +1,13 @@
 
 #' Power analysis for two independent correlations
 #'
-#' This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Use (1) to determine power for detecting a significant difference between two r passed N ('post hoc'), or (2) determine required N to achieve a desired power ('a-priori').
+#' This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's z-test. It can (1) determine the power for detecting a significant difference between 2 correlations given N ('post hoc'), and (2) determine the required N to achieve a desired power ('a-priori').
 #'
 #' @param r1 Value of first Pearson correlation coefficient, must be passed.
 #' @param r2 Value of second correlation coefficient, must be passed.
-#' @param n1 Sample size of group 1; pass for 'post hoc' analysis.
-#' @param n2 Sample size of group 2; pass for 'post hoc' analysis.
-#' @param power The statistical power; pass for 'a-priori' analysis.
+#' @param n1 Sample size of group 1; pass only for 'post hoc' analysis.
+#' @param n2 Sample size of group 2; pass only for 'post hoc' analysis.
+#' @param power The statistical power; pass only for 'a-priori' analysis.
 #' @param sig.level The employed alpha level, defaults to 0.05.
 #' @param alternative Must be 'greater', 'less', or 'two.sided'. 'greater' (r1 > r2) or 'less' (r1 < r2) will result in one sided tests (to be used if a directional hypothesis exists). Default test is two.sided.
 #'

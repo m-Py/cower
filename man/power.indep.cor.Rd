@@ -12,11 +12,11 @@ power.indep.cor(r1, r2, n1 = NULL, n2 = NULL, power = NULL,
 
 \item{r2}{Value of second correlation coefficient, must be passed.}
 
-\item{n1}{Sample size of group 1; pass for 'post hoc' analysis.}
+\item{n1}{Sample size of group 1; pass only for 'post hoc' analysis.}
 
-\item{n2}{Sample size of group 2; pass for 'post hoc' analysis.}
+\item{n2}{Sample size of group 2; pass only for 'post hoc' analysis.}
 
-\item{power}{The statistical power; pass for 'a-priori' analysis.}
+\item{power}{The statistical power; pass only for 'a-priori' analysis.}
 
 \item{sig.level}{The employed alpha level, defaults to 0.05.}
 
@@ -33,7 +33,7 @@ A \code{list} that contains all passed and computed values.
   \item{hypothesis}{Passed argument 'alternative'}
 }
 \description{
-This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's test. Use (1) to determine power for detecting a significant difference between two r passed N ('post hoc'), or (2) determine required N to achieve a desired power ('a-priori').
+This function can be used to conduct power analyses for the comparison of independent correlation coefficients, as tested via Fisher's z-test. It can (1) determine the power for detecting a significant difference between 2 correlations given N ('post hoc'), and (2) determine the required N to achieve a desired power ('a-priori').
 }
 \examples{
 power.indep.cor(r1 = 0.4, r2 = 0.3, power = 0.8)
