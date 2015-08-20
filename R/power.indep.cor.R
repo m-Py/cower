@@ -75,7 +75,7 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
       #### determine power for given N
       if (alternative  == "less") {
          criticalValue  <- qnorm(sig.level)
-         pwr            <- 1 - pnorm(criticalValue, mean = distributionH1, sd = 1)
+         pwr            <- pnorm(criticalValue, mean = distributionH1, sd = 1)
       }
       else if (alternative == "greater") {
          criticalValue  <- qnorm(1-sig.level)
@@ -127,7 +127,7 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
    rtn         <- list()
    rtn[["r1"]] <- r1
    rtn[["r2"]] <- r2
-   rtn[["q"]]  <- effSizeQ
+   rtn[["q"]]  <- abs(effSizeQ)
    rtn[["n1"]] <- n1
    rtn[["n2"]] <- n2
    rtn[["power"]] <- pwr
