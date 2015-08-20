@@ -25,13 +25,13 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
    
    # add some error handling
    if (alternative != "two.sided" && alternative != "less" && alternative != "greater") {
-      stop("alternative must be 'two.sided', 'less', or 'greater'.")
+      stop("Error: alternative must be 'two.sided', 'less', or 'greater'.")
    }
-   if ( (is.null(n1) && is.null(power)) || (is.null(n2) && is.null(power)) ) {
-      stop("either n1 and n2 or power must be given, not both")
+   if ( (!is.null(n1) && !is.null(power)) || (!is.null(n2) && !is.null(power)) ) {
+      stop("Error: either n1 and n2 or power must be given, but n and power were passed.")
    }
    if ( is.null(n1) && is.null(n2) && is.null(power) ) {
-      stop("either n1 and n2 or power must be given, not both")
+      stop("Error: either n1 and n2 or power must be given, but none was passed.")
    }
 
    effSizeQ         <- atanh(r1) - atanh(r2)           # difference of two Fischer-z-transformed r -> effect size q
@@ -41,6 +41,7 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
       wantedPower      <- power
       startPoint <- 3
       i <- 0 # for approximating power
+      # start n = 4 per condition
       n1 <- startPoint + 2^i
       n2 <- startPoint + 2^i
       status <- "increase" # start increasing n in power approximation
@@ -52,6 +53,7 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
    
    currentPower     <- 0                               # approximate power   
    bestFitFound     <- FALSE
+   rtn              <- list()
    
    # loop until power is reached (if n is searched for)
    while (bestFitFound == FALSE) {
@@ -78,7 +80,7 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
          }
       }
       if (is.null(power)) { 
-         break # need not loop if power is to be determined
+         break # stop if n was given and power is to be determined
       } 
       
       ### CASE: determine n, continue looping until good fit for power is found
@@ -86,8 +88,12 @@ power.indep.cor <- function(r1, r2, n1 = NULL, n2 = NULL, power = NULL, sig.leve
       i  <- i+1
       if (steps >= 10 && currentPower >= power) { # make sure that approximation is rather exact
          bestFitFound <- TRUE
-         print(paste("n per condition", n1))
-         return(pwr)
+         rtn[["n1"]] <- n1
+         rtn[["n2"]] <- n2
+         rtn[["power"]] <- pwr
+         rtn[["sig.level"]] <- sig.level
+         rtn[["test"]] <- alternative
+         return(rtn)
       }
       if (currentPower < wantedPower) { # increase n
          if (status == "decrease") {
