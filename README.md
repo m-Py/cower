@@ -14,7 +14,7 @@ large sample sizes to obtain reasonable power (e.g.: *r* = 0.5 versus
 one-sided test). Therefore, it is often preferable to consider a
 comparison of dependent correlations if that is feasible. However, this
 is not always possible; it then crucial to know the power to detect a
-significant difference in independent correlations. `cower` is used to
+hypothesized difference in independent correlations. `cower` is used to
 conduct such power analyses.
 
 ## Types of power analysis 
