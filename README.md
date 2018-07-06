@@ -123,6 +123,14 @@ $hypothesis
 Again, we could also adjust the alpha-level and the sidedness of the
 hypothesis test.
 
+For more information, load the package and open the help page by
+running:
+
+```R
+library("cower")
+?power.indep.cor
+```
+
 ## Questions and suggestions
 
 If you have any questions or suggestions (which are greatly
