@@ -17,12 +17,12 @@ is not always possible; it then crucial to know the power to detect a
 significant difference in independent correlations. `cower` is used to
 conduct such power analyses.
 
-## Types of power analysis that supported
+## Types of power analysis 
 
-- "post-hoc" - determine the power for two given correlation
-  coefficients and given sample size
-- "a priori" - specify a desired power and two correlation coefficients
-  to determine the required sample size
+- "Post-hoc" power analysis - determine the power for two given
+  correlation coefficients and given sample size
+- "A priori" power analysis - specify a desired power and two
+  correlation coefficients to determine the required sample size
 
 ## Installation
 
@@ -32,7 +32,7 @@ run the following commands:
 
 ```R
 
-library("devtools") # if not available: install.packages("devtools")
+library("devtools") # if not available, run: install.packages("devtools")
 install_github("m-Py/cower")
 
 # load the package via 
@@ -76,7 +76,7 @@ $hypothesis
 ```
 
 By default, the power for a two-sided test is computed, and an alpha
-level of .5 is adapted. The alpha-level can be changed using the
+level of .05 is adapted. The alpha-level can be changed using the
 parameter `sig.level` and the sidedness can be changed using the
 parameter `alternative` (for a one-sided test, set `alternative` to
 "less" or "greater", depending on whether r1 is smaller or greater than
@@ -126,5 +126,5 @@ hypothesis test.
 ## Questions and suggestions
 
 If you have any questions or suggestions (which are greatly
-appreciated), just open an issue at Github or contact me via
-martin.papenberg at hhu.de.
+appreciated), just open an issue at GitHub or contact me via email.
+
